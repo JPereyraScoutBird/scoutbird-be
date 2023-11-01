@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "paths": {
+    "/news/{ticker}": {
+      "name": "/news/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/analyst/{ticker}": {
+      "name": "/analyst/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/insider-trading/{ticker}": {
+      "name": "/insider-trading/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/esg-data/{ticker}": {
+      "name": "/esg-data/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/stocknews/{ticker}": {
+      "name": "/stocknews/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/senate-disclosure/{ticker}": {
+      "name": "/senate-disclosure/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/institutional-holder/{ticker}": {
+      "name": "/institutional-holder/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/gov-contract/{ticker}": {
+      "name": "/gov-contract/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/lobbying/{ticker}": {
+      "name": "/lobbying/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/patents/{ticker}": {
+      "name": "/patents/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/wikipedia/{ticker}": {
+      "name": "/wikipedia/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/peers/{ticker}": {
+      "name": "/peers/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/podcast/{ticker}": {
+      "name": "/podcast/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/broadcast/{ticker}": {
+      "name": "/broadcast/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/youtube/{ticker}": {
+      "name": "/youtube/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/reddit/{ticker}": {
+      "name": "/reddit/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/linkedin/{ticker}": {
+      "name": "/linkedin/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/substack/{ticker}": {
+      "name": "/substack/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/tiktok/{ticker}": {
+      "name": "/tiktok/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/newsdata": {
+      "name": "/newsdata",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/glassdoor/{ticker}": {
+      "name": "/glassdoor/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

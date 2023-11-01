@@ -1,0 +1,24 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type News @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  company: String
+  author: String
+  contentLength: Int
+  content: String
+  description: String
+  imageUrl: String
+  sentiment: Float
+  source: String
+  ticker: String! @index(sortKeyFields: ["publishedAt"])
+  title: String
+  titleAi: String
+  topicAi: String @index(sortKeyFields: ["publishedAt"])
+  topicAiRelevant: Boolean!
+  topicAiScore: Float
+  score: Float
+  url: String! @index
+  publishedAt: String
+}

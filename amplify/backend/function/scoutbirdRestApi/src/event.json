@@ -1,0 +1,12 @@
+{
+  "httpMethod": "GET",
+  "path": "/glassdoor/NFLX",
+  "queryStringParameters": {
+    "limit": "10"
+  },
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "[{\"companyName\": \"Arista Networks\", \"companySymbol\": \"ANET\"}]"
+}
+

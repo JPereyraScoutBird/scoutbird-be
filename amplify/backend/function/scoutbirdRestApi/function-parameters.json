@@ -1,0 +1,24 @@
+{
+  "lambdaLayers": [],
+  "secretNames": [
+    "API_KEY_FMP",
+    "API_KEY_QUIVERQUANT",
+    "API_KEY_IEXCLOUD",
+    "API_KEY_LISTEN",
+    "API_KEY_SERPAPI",
+    "API_KEY_TIKTOK",
+    "API_KEY_GOOGLEAPI",
+    "API_KEY_OEPNAI",
+    "API_KEY_NEWSAPI",
+    "API_KEY_OPENAI"
+  ],
+  "permissions": {
+    "api": {
+      "scoutbird": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    }
+  }
+}

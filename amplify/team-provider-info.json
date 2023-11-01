@@ -1,0 +1,36 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-scoutbird-staging-143846-authRole",
+      "UnauthRoleArn": "arn:aws:iam::074931833817:role/amplify-scoutbird-staging-143846-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::074931833817:role/amplify-scoutbird-staging-143846-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-scoutbird-staging-143846-deployment",
+      "UnauthRoleName": "amplify-scoutbird-staging-143846-unauthRole",
+      "StackName": "amplify-scoutbird-staging-143846",
+      "StackId": "arn:aws:cloudformation:us-east-1:074931833817:stack/amplify-scoutbird-staging-143846/5ebebf20-740d-11ee-9ee6-1259ec1d148d",
+      "AmplifyAppId": "d27i7g807nt3qb"
+    },
+    "categories": {
+      "api": {
+        "scoutbird": {},
+        "scoutbirdRestApi": {}
+      },
+      "function": {
+        "scoutbirdRestApi": {
+          "secretsPathAmplifyAppId": "d27i7g807nt3qb",
+          "deploymentBucketName": "amplify-scoutbird-staging-143846-deployment",
+          "s3Key": "amplify-builds/scoutbirdRestApi-59625050754176533757-build.zip"
+        },
+        "NewsFunction": {},
+        "scoutbirdCronJob": {
+          "deploymentBucketName": "amplify-scoutbird-staging-143846-deployment",
+          "s3Key": "amplify-builds/scoutbirdCronJob-4d424d2b69616d4d6a54-build.zip"
+        }
+      },
+      "auth": {
+        "scoutbirdc6d32997": {}
+      }
+    }
+  }
+}

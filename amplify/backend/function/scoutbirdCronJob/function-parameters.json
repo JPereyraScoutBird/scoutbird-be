@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "function": {
+      "scoutbirdRestApi": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

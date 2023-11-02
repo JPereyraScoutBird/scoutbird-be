@@ -1,6 +1,6 @@
 {
   "httpMethod": "GET",
-  "path": "/analyst/NFLX",
+  "path": "/podcast/NFLX",
   "queryStringParameters": {
     "limit": "10"
   },

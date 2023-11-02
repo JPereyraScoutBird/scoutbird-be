@@ -393,8 +393,7 @@ app.get("/podcast/:ticker", async function (req, res) {
   try {
     const ticker = req?.params?.ticker;
     const podcastApiClient = await podcast();
-    const podcastResponse = await podcastApiClient.s
-    earch(ticker);
+    const podcastResponse = await podcastApiClient.search(ticker);
     if (podcastResponse && podcastResponse.results) {
       return res.status(200).json(podcastResponse.results.map(x => ({...x, pub_date_ms: moment(x.pub_date_ms).format('YYYYMMDD')})));
     }

@@ -26,10 +26,45 @@
         "scoutbirdCronJob": {
           "deploymentBucketName": "amplify-scoutbird-staging-143846-deployment",
           "s3Key": "amplify-builds/scoutbirdCronJob-4d424d2b69616d4d6a54-build.zip"
-        }
+        },
+        "scoutbird": {}
       },
       "auth": {
         "scoutbirdc6d32997": {}
+      }
+    }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-scoutbird-dev-155933-authRole",
+      "UnauthRoleArn": "arn:aws:iam::074931833817:role/amplify-scoutbird-dev-155933-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::074931833817:role/amplify-scoutbird-dev-155933-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-scoutbird-dev-155933-deployment",
+      "UnauthRoleName": "amplify-scoutbird-dev-155933-unauthRole",
+      "StackName": "amplify-scoutbird-dev-155933",
+      "StackId": "arn:aws:cloudformation:us-east-1:074931833817:stack/amplify-scoutbird-dev-155933/32e0f880-78f1-11ee-96cc-12d7f31fccfd",
+      "AmplifyAppId": "d27i7g807nt3qb"
+    },
+    "categories": {
+      "auth": {
+        "scoutbirdc6d32997": {}
+      },
+      "function": {
+        "scoutbirdCronJob": {
+          "deploymentBucketName": "amplify-scoutbird-dev-155933-deployment",
+          "s3Key": "amplify-builds/scoutbirdCronJob-4d424d2b69616d4d6a54-build.zip"
+        },
+        "scoutbirdRestApi": {
+          "secretsPathAmplifyAppId": "d27i7g807nt3qb",
+          "deploymentBucketName": "amplify-scoutbird-dev-155933-deployment",
+          "s3Key": "amplify-builds/scoutbirdRestApi-47444d71556265574d32-build.zip"
+        },
+        "scoutbird": {}
+      },
+      "api": {
+        "scoutbird": {},
+        "scoutbirdRestApi": {}
       }
     }
   }

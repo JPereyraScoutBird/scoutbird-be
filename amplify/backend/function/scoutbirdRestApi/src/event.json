@@ -1,6 +1,6 @@
 {
   "httpMethod": "GET",
-  "path": "/glassdoor/NFLX",
+  "path": "/analyst/NFLX",
   "queryStringParameters": {
     "limit": "10"
   },

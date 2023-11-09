@@ -25,7 +25,6 @@ export type AmplifyDependentResourcesAttributes = {
   "function": {
     "scoutbirdCronJob": {
       "Arn": "string",
-      "CloudWatchEventRule": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",

@@ -92,7 +92,7 @@
         "scoutbirdRestApi": {
           "secretsPathAmplifyAppId": "d27i7g807nt3qb",
           "deploymentBucketName": "amplify-scoutbird-uat-142317-deployment",
-          "s3Key": "amplify-builds/scoutbirdRestApi-5573783839572f6c4279-build.zip"
+          "s3Key": "amplify-builds/scoutbirdRestApi-31695339355336514956-build.zip"
         },
         "scoutbird": {}
       },

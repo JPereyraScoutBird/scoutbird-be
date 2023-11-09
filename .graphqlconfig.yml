@@ -1,6 +1,6 @@
 projects:
   scoutbird:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/scoutbird/build/schema.graphql
     includes:
       - src/graphql/**/*.js
     excludes:

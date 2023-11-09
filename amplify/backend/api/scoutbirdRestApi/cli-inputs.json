@@ -147,6 +147,20 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/summary/{ticker}": {
+      "name": "/summary/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/dashboard/summary/{ticker}": {
+      "name": "/dashboard/summary/{ticker}",
+      "lambdaFunction": "scoutbirdRestApi",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }

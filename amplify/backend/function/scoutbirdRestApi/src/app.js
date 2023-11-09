@@ -48,6 +48,8 @@ const iexcloud = require('./api/iexcloud');
 const podcast = require('./api/podcast');
 const broadcast = require('./api/broadcast');
 const tiktok = require('./api/tiktok');
+const cluster_news = require('./api/cluster_news');
+
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
@@ -232,6 +234,8 @@ app.get("/senate-disclosure/:ticker", async function (req, res) {
   }
 })
 
+
+
 app.get("/institutional-holder/:ticker", async function (req, res) {
   try {
     const ticker = req?.params?.ticker;
@@ -317,10 +321,11 @@ app.get("/dashboard/summary/:ticker", async function(req, res) {
     for(item of response ) {
       // console.log(item)
       const tags = item['cluster_tags'].map(y => `"${y.toUpperCase()}"`).filter(x => x !== '"INC."' && x !== '"NASDAQ"' && x !== `"${ticker.toUpperCase()}"`).join(" OR ")
+      // console.log(response)
       const redditReponse = await serpApiClient.socialCustomApi(ticker, 'www.reddit.com', tags)
       const linkedinResponse = await serpApiClient.socialCustomApi(ticker, 'www.linkedin.com', tags)
       const podcastResponse = await podcastApiClient.searchCustom(ticker, tags)
-
+      // console.log("items: ", item['news_titles'].map((x, index) => ({"title": x, "link": item['news_urls'][index], "source": "site", "date": item["news_pub_dates"][index]})))
       res_list.push({
         ...item,
         redditReponse: {
@@ -332,11 +337,16 @@ app.get("/dashboard/summary/:ticker", async function(req, res) {
           count: linkedinResponse.length
         },
         podcastResponse: {
-          list: podcastResponse,
-          count: podcastResponse.length
+          list: podcastResponse.results,
+          count: podcastResponse.count
+        },
+        newsResponse: {
+          list: item && item['news_titles'] ? item['news_titles'].map((x, index) => ({"title": x, "link": item['news_urls'][index], "source": "site", "date": item["news_pub_dates"][index]})) : [],
+          count: item['news_titles'].length
         }
       })
     }
+    // console.log("res_list: ", res_list)
     // console.log("reddit", res_list[0]['linkedinResponse'])
     return  res.status(200).json(res_list);
   } catch (error) {
@@ -344,18 +354,52 @@ app.get("/dashboard/summary/:ticker", async function(req, res) {
 }
 })
 
+const getSumValuesFromDate = (output, key, value, format='YYYYMM') => {
+  const sum = output.reduce((acc, cur)=> {
+    let found = acc.find(val => moment(val[key]).format(format) == moment(cur[key]).format(format))
+    if(found){
+      found['count']+=1
+      found[value]+=Number(cur[value])
+    }
+    else{
+        acc.push({[key]: moment(cur[key]).format(format), [value]: Number(cur[value]), count: cur['count'] || 1})
+    }
+    return acc
+  }, [])
+  return sum
+}
+
 app.get("/summary/:ticker", async function (req, res) {
   const ticker = req?.params?.ticker;
   const glassdoorClient = await GlassdoorClient();
   const glassdoorClientResponse = await glassdoorClient.search(ticker);
+  const quiverQuantApiClient = await quiverquant();
+
+  // const broadcastApiClient = await broadcast();
+  // const broadcastResponse = await broadcastApiClient.tv(ticker);
+  // const tiktokClient = await tiktok();
+  // const tiktokResponse = await tiktokClient.search(ticker);
+  // const serpApiClient = await SerpApiClient();
+  // const linkedinResponse = await serpApiClient.linkedinApi(ticker);
+  // const redditReponse = await serpApiClient.redditApi(ticker);
   const fmpApiClient = await fmp();
+  const analystResponse = await fmpApiClient.analystRating(ticker)
   const insiderResponse = await fmpApiClient.insiderTrading(ticker)
+  const quiverResponse = await quiverQuantApiClient.patents(ticker);
 
 
+
+  const insiderResponse2 = insiderResponse.sort((a, b) => (new Date(b.filingDate) - new Date(a.filingDate)))
+  const analystResponse2 = analystResponse.sort((a, b) => (new Date(b.publishedDate) - new Date(a.publishedDate)));
+  const insiderResponse3 = insiderResponse2.map(x => ({...x, 'value': x['securitiesTransacted'] * x['price']}))
 
   const esg = await fmpApiClient.esgEnvSocialGovData(ticker)
   const esgRes2 = esg.sort((a, b) => (new Date(b.date) - new Date(a.date)))
+  const instituionalHolders = await fmpApiClient.institutionalSymbolOwner(ticker);
+  const iexCloudtApiClient = await iexcloud();
+  const iexCloudResponse = await iexCloudtApiClient.peers(ticker);
 
+  // const esgResponse = await fmpApiClient.esgEnvSocialGovData(ticker);
   const environment = []
   const governance = []
   const social = []
@@ -373,6 +417,39 @@ app.get("/summary/:ticker", async function (req, res) {
       glassdoorList[index][y['category']] = y['rating']
     })
   })
+
+  // const stockResponse = await fmpApiClient.stockNews(ticker);
+  // const stockResponse1 = await fmpApiClient.stockNews(iexCloudResponse[0]);
+  // const stockResponse2 = await fmpApiClient.stockNews(iexCloudResponse[1]);
+  // const stockResponse3 = await fmpApiClient.stockNews(iexCloudResponse[2]);
+  // const stockResponse4 = await fmpApiClient.stockNews(iexCloudResponse[3]);
+
+  return res.status(200).json({
+    analyst: {
+      target: getSumValuesFromDate(analystResponse2,'publishedDate', 'priceTarget', 'YYYYMM'),
+      posted: getSumValuesFromDate(analystResponse2, 'publishedDate', 'priceWhenPosted', 'YYYYMM')
+    },
+    esg: {
+      environment: environment,
+      social: social,
+      governance: governance,
+      esgScore: esgList,
+    },
+    institutionalHolder: instituionalHolders.map(x => x.investorsHolding),
+    insiderTrading: {
+      securityTransacted: getSumValuesFromDate(insiderResponse2, 'filingDate', 'securitiesTransacted', 'YYYYMM'),
+      valueTransacted: getSumValuesFromDate(insiderResponse3, 'filingDate', 'value', 'YYYYMM'),
+    },
+    glassdoor: glassdoorList,
+    patents: getSumValuesFromDate(quiverResponse, 'Date', 'Claims', 'YYYYMM')
+    // news: stockResponse,
+    // competitorNews: {
+    //   [iexCloudResponse[0]]: stockResponse1,
+    //   [iexCloudResponse[1]]: stockResponse2,
+    //   [iexCloudResponse[2]]: stockResponse3,
+    //   [iexCloudResponse[3]]: stockResponse4,
+    // }
+  });
 })
 
 

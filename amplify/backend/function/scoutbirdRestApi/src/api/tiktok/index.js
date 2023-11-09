@@ -33,7 +33,18 @@ module.exports = async () => {
       const {
         status,data
       } =  await axios.get(path, config);
-      return data
+      const tiktokResponse = data && data['media'] ? data['media'].map(x => ({
+        "img": x['video']['cover']['url_list'][0],
+        "create_time": moment(x['create_time']* 1000).format("DD/MM/YYYY"),
+        "desc": x['desc'],
+        "duration": x['video']['duration'] / 1000 ,
+        "comment_count": x['statistics']['comment_count'],
+        "download_count": x['statistics']['download_count'],
+        "play_count": x['statistics']['play_count'],
+        "share_count": x['statistics']['share_count'],
+        "share_link": x['video']['play_addr']['url_list'][0]
+    })) : []
+      return tiktokResponse
     }
   };
 }

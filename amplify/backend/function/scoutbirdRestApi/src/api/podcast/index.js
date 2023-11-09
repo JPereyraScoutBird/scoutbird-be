@@ -30,12 +30,17 @@ module.exports = async () => {
     
   return {
     search: async (ticker) => {
-      const path = `${baseUrl}/search?q=${ticker}&sort_by_date=0&type=episode&offset=0&len_min=10&len_max=200&published_after=1662782400000&language=English&safe_mode=0`
+      const path = `${baseUrl}/search?q=${ticker}&sort_by_date=1&type=episode&offset=0&len_min=10&len_max=200&published_after=1662782400000&language=English&safe_mode=0`
       const {
         status,data
       } =  await axios.get(path, config);
-      // console.log("Data: ", data)
-      // console.log("status: ", status)
+      return data
+    },
+    searchCustom: async (ticker, keywords) => {
+      const path = `${baseUrl}/search?q=${ticker} ${keywords}&sort_by_date=1&type=episode&offset=0&len_min=10&len_max=200&published_after=1662782400000&language=English&safe_mode=0`
+      const {
+        status,data
+      } =  await axios.get(path, config);
       return data
     }
   };

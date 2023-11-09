@@ -72,17 +72,45 @@ module.exports = async () => {
             
             const organicResults2 = organicResults.map(x => {
               if(myRegExp.test(x.date)) {
-                console.log(x.date)
                 const results = myRegExp.exec(x.date);
                 const num = results[1];
                 const duration = results[2];
                 const new_date = moment().subtract(duration,num).format("MMMM Do, YYYY")
-                console.log(new_date)
                 return ({...x, date: new_date})
               }
               return ({...x})
             })
             return res(organicResults2);
+          }
+        );
+      });
+    },
+
+    socialCustomApi: (ticker, site, keywords, date='') => {
+      return new Promise((res, rej) => {
+        searchClient.json(
+          {
+            q: `${TICKERS[ticker]} ${keywords} site:${site}`,
+            ...query_params,
+          },
+          (data, error) => {
+            if (error) {
+              return rej(error);
+            }
+            const { organic_results: organicResults } = data;
+            
+            const organicResults2 = organicResults.map(x => {
+              const source = site == 'www.reddit.com' ?  x.link.replace('https://www.reddit.com/', '').split('/comments')[0] : site
+              if(myRegExp.test(x.date)) {
+                const results = myRegExp.exec(x.date);
+                const num = results[1];
+                const duration = results[2];
+                const new_date = moment().subtract(duration,num).format("MMMM Do, YYYY")
+                return ({...x, date: new_date, source:source})
+              }
+              return ({...x, source:source})
+            })
+            return res(organicResults2.map(x => ({title: x.title, link: x.link, date: x.date, source: x.source})));
           }
         );
       });
@@ -102,12 +130,10 @@ module.exports = async () => {
             
             const organicResults2 = organicResults.map(x => {
               if(myRegExp.test(x.date)) {
-                console.log(x.date)
                 const results = myRegExp.exec(x.date);
                 const num = results[1];
                 const duration = results[2];
                 const new_date = moment().subtract(duration,num).format("MMMM Do, YYYY")
-                console.log(new_date)
                 return ({...x, date: new_date})
               }
               return ({...x})
@@ -121,7 +147,7 @@ module.exports = async () => {
       return new Promise((res, rej) => {
         searchClient.json(
           {
-            q: `${ticker} site:substack.com`,
+            q: `${TICKERS[ticker]} site:substack.com`,
             ...query_params2,
           },
           (data, error) => {
@@ -132,7 +158,34 @@ module.exports = async () => {
 
             const organicResults2 = organicResults.map(x => {
               if(myRegExp.test(x.date)) {
-                console.log(x.date)
+                const results = myRegExp.exec(x.date);
+                const num = results[1];
+                const duration = results[2];
+                const new_date = moment().subtract(duration,num).format("MMMM Do, YYYY")
+                return ({...x, date: new_date})
+              }
+              return ({...x})
+            })
+            return res(organicResults2);
+          }
+        );
+      });
+    },
+    IRApi: (ticker) => {
+      return new Promise((res, rej) => {
+        searchClient.json(
+          {
+            q: `${ticker} Investor Relations`,
+            ...query_params,
+          },
+          (data, error) => {
+            if (error) {
+              return rej(error);
+            }
+            const { organic_results: organicResults } = data;
+            
+            const organicResults2 = organicResults.map(x => {
+              if(myRegExp.test(x.date)) {
                 const results = myRegExp.exec(x.date);
                 const num = results[1];
                 const duration = results[2];

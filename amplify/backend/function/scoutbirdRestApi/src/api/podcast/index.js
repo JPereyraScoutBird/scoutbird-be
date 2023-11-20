@@ -42,6 +42,28 @@ module.exports = async () => {
         status,data
       } =  await axios.get(path, config);
       return data
+    },
+    searchDate: async (ticker, date_min, date_max) => {
+      const published_before = moment(date_max, "MM/DD/YYYY").valueOf()
+      const published_after = moment(date_min, "MM/DD/YYYY").valueOf()
+      console.log("date min: ", published_after)
+      console.log("date max: ", published_before)
+      const path = `${baseUrl}/search?q=${ticker}&published_before=${published_before}&published_after=${published_after}&sort_by_date=1&type=episode&offset=0&len_min=10&len_max=200&published_after=1662782400000&language=English&safe_mode=0`
+      const {
+        status,data
+      } =  await axios.get(path, config);
+      return data
+    },
+    searchCustomDate: async (ticker, keywords, date_min, date_max) => {
+      const published_before = moment(date_max, "MM/DD/YYYY").valueOf()
+      const published_after = moment(date_min, "MM/DD/YYYY").valueOf()
+      console.log("date min: ", published_after)
+      console.log("date max: ", published_before)
+      const path = `${baseUrl}/search?q=${ticker}${keywords}&published_before=${published_before}&published_after=${published_after}&sort_by_date=1&type=episode&offset=0&len_min=10&len_max=200&published_after=1662782400000&language=English&safe_mode=0`
+      const {
+        status,data
+      } =  await axios.get(path, config);
+      return data
     }
   };
 }

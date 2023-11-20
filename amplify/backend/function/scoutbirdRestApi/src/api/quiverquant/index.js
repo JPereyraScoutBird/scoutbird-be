@@ -40,16 +40,40 @@ module.exports = async () => {
       return data
     },
     lobbying: async (ticker) => {
-        const path = `${baseUrl}/beta/historical/lobbying/${ticker}`
-        const {
-          status,data
-        } =  await axios.get(path, config);
-        console.log("Data: ", data)
-        console.log("status: ", status)
-        return data
+      const path = `${baseUrl}/beta/historical/lobbying/${ticker}`
+      const {
+        status,data
+      } =  await axios.get(path, config);
+      console.log("Data: ", data)
+      console.log("status: ", status)
+      return data
     },
-    patents: async (ticker) => {
+    // lobbying: async (ticker, date_from = undefined, date_to = undefined) => {
+    //   if (date_from && date_to)                                    {
+    //     const date_from_transform = moment(date_from, "MM/DD/YYYY").format("YYYYMMDD")
+    //     const date_to_transform = moment(date_to, "MM/DD/YYYY").format("YYYYMMDD")
+    //     config['params'] = {}
+    //     config['params']['date_from'] = date_from_transform
+    //     config['params']['date_to'] = date_to_transform
+    //   }
+    //   const path = `${baseUrl}/beta/live/lobbying`
+    //   const {
+    //     status,data
+    //   } =  await axios.get(path, config);
+    //   console.log("Data: ", data)
+    //   console.log("status: ", status)
+    //   return data
+    // },
+    patents: async (ticker, date_from = undefined, date_to = undefined) => {
+        if (date_from && date_to)                                    {
+          const date_from_transform = moment(date_from, "MM/DD/YYYY").format("YYYYMMDD")
+          const date_to_transform = moment(date_to, "MM/DD/YYYY").format("YYYYMMDD")
+          config['params'] = {}
+          config['params']['date_from'] = date_from_transform
+          config['params']['date_to'] = date_to_transform
+        }
         const path = `${baseUrl}/beta/historical/allpatents/${ticker}`
+        console.log("config: ", config)
         const {
           status,data
         } =  await axios.get(path, config);
@@ -66,5 +90,14 @@ module.exports = async () => {
         console.log("status: ", status)
         return data
     },
+    twitter: async (ticker) => {
+      const path = `${baseUrl}/beta/historical/twitter/${ticker}`
+      const {
+        status,data
+      } =  await axios.get(path, config);
+      console.log("Data: ", data)
+      console.log("status: ", status)
+      return data
+  },
   };
 }

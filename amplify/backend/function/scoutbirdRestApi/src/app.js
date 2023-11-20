@@ -124,19 +124,22 @@ app.delete('/news/:ticker/*', function(req, res) {
 app.get("/reddit/:ticker", async function (req, res) {
   try {
     const ticker = req?.params?.ticker;
+    const {start_date, end_date} = req?.query;
     const serpApiClient = await SerpApiClient();
-    const redditResponse = await serpApiClient.redditApi(ticker);
+    const redditResponse = await serpApiClient.redditApi(ticker, start_date, end_date);
     return res.status(200).json(redditResponse.sort((a, b) => (new Date(b.date) - new Date(a.date))));
   } catch (error) {
     return res.status(500).json({ error });
   }
 });
 
+
 app.get("/linkedin/:ticker", async function (req, res) {
   try {
     const ticker = req?.params?.ticker;
+    const {start_date, end_date} = req?.query;
     const serpApiClient = await SerpApiClient();
-    const linkedinResponse = await serpApiClient.linkedinApi(ticker);
+    const linkedinResponse = await serpApiClient.linkedinApi(ticker, start_date, end_date);
     return res.status(200).json(linkedinResponse.sort((a, b) => (new Date(b.date) - new Date(a.date))));
   } catch (error) {
     return res.status(500).json({ error });
@@ -146,8 +149,9 @@ app.get("/linkedin/:ticker", async function (req, res) {
 app.get("/substack/:ticker", async function (req, res) {
   try {
     const ticker = req?.params?.ticker;
+    const {start_date, end_date} = req?.query;
     const serpApiClient = await SerpApiClient();
-    const substackResponse = await serpApiClient.substackApi(ticker);
+    const substackResponse = await serpApiClient.substackApi(ticker, start_date, end_date);
     return res.status(200).json(substackResponse.sort((a, b) => (new Date(b.date) - new Date(a.date))));
   } catch (error) {
     return res.status(500).json({ error });
@@ -260,6 +264,7 @@ app.get("/gov-contract/:ticker", async function (req, res) {
   }
 })
 
+
 app.get("/lobbying/:ticker", async function (req, res) {
   try {
     const ticker = req?.params?.ticker;
@@ -275,7 +280,19 @@ app.get("/patents/:ticker", async function (req, res) {
   try {
     const ticker = req?.params?.ticker;
     const quiverQuantApiClient = await quiverquant();
-    const quiverResponse = await quiverQuantApiClient.patents(ticker);
+    const {start_date=undefined, end_date=undefined} = req?.query;
+    const quiverResponse = await quiverQuantApiClient.patents(ticker, start_date, end_date);
+    return res.status(200).json(quiverResponse);
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+})
+
+app.get("/twitter/:ticker", async function (req, res) {
+  try {
+    const ticker = req?.params?.ticker;
+    const quiverQuantApiClient = await quiverquant();
+    const quiverResponse = await quiverQuantApiClient.twitter(ticker);
     return res.status(200).json(quiverResponse);
   } catch (error) {
     return res.status(500).json({ error });
@@ -368,6 +385,17 @@ const getSumValuesFromDate = (output, key, value, format='YYYYMM') => {
   }, [])
   return sum
 }
+
+app.get("/company-outlook/:ticker", async function (req, res) {
+  try {
+      const ticker = req?.params?.ticker;
+      const fmpClient = await fmp();
+      const fmpClientResponse = await fmpClient.companyOutlook(ticker);
+      return res.status(200).json(fmpClientResponse);
+    } catch (error) {
+      return res.status(500).json({ error });
+  }
+});
 
 app.get("/summary/:ticker", async function (req, res) {
   const ticker = req?.params?.ticker;
@@ -470,7 +498,13 @@ app.get("/podcast/:ticker", async function (req, res) {
   try {
     const ticker = req?.params?.ticker;
     const podcastApiClient = await podcast();
-    const podcastResponse = await podcastApiClient.search(ticker);
+    const {start_date=undefined, end_date=undefined} = req?.query;
+    let podcastResponse = ''
+    if (start_date && end_date) {
+      podcastResponse = await podcastApiClient.searchDate(ticker, start_date, end_date);
+    } else {
+      podcastResponse = await podcastApiClient.search(ticker);
+    }
     if (podcastResponse && podcastResponse.results) {
       return res.status(200).json(podcastResponse.results.map(x => ({...x, pub_date_ms: moment(x.pub_date_ms).format('YYYYMMDD')})));
     }
@@ -510,8 +544,10 @@ app.get("/broadcast/:ticker", async function (req, res) {
 app.get("/youtube/:ticker", async function (req, res) {
   try {
     const ticker = req?.params?.ticker;
+    const {start_date=undefined, end_date=undefined} = req?.query;
+    console.log("start", start_date)
     const youtubeFeaturesClient = await YoutubeFeaturesClient();
-    const youtubeFeaturesResponse = await youtubeFeaturesClient.search(ticker);
+    const youtubeFeaturesResponse = await youtubeFeaturesClient.search(ticker, start_date, end_date);
     return res.status(200).json(youtubeFeaturesResponse.sort((a,b) => (new Date(b.pub_date) - new Date(a.pub_date))));
   } catch (error) {
     return res.status(500).json({ error });

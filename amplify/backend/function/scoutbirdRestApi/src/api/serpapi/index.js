@@ -57,12 +57,13 @@ module.exports = async () => {
 
 
   return {
-    redditApi: (ticker) => {
+    redditApi: (ticker, cd_min='1/1/2022', cd_max='4/1/2022') => {
       return new Promise((res, rej) => {
         searchClient.json(
           {
             q: `${ticker} site:www.reddit.com`,
             ...query_params,
+            "tbs":`cdr:1,cd_min:${cd_min},cd_max:${cd_max}`
           },
           (data, error) => {
             if (error) {
@@ -86,12 +87,13 @@ module.exports = async () => {
       });
     },
 
-    socialCustomApi: (ticker, site, keywords, date='') => {
+    socialCustomApi: (ticker, site, keywords, cd_min='', cd_max='') => {
       return new Promise((res, rej) => {
         searchClient.json(
           {
             q: `${TICKERS[ticker]} ${keywords} site:${site}`,
             ...query_params,
+            "tbs":`cdr:1,cd_min:${cd_min},cd_max:${cd_max}`
           },
           (data, error) => {
             if (error) {
@@ -115,12 +117,13 @@ module.exports = async () => {
         );
       });
     },
-    linkedinApi: (ticker) => {
+    linkedinApi: (ticker, cd_min='1/1/2022', cd_max='4/1/2022') => {
       return new Promise((res, rej) => {
         searchClient.json(
           {
             q: `${TICKERS[ticker]} site:www.linkedin.com`,
             ...query_params,
+            "tbs":`cdr:1,cd_min:${cd_min},cd_max:${cd_max}`
           },
           (data, error) => {
             if (error) {
@@ -143,12 +146,13 @@ module.exports = async () => {
         );
       });
     },
-    substackApi: async (ticker) => {
+    substackApi: async (ticker, cd_min='1/1/2022', cd_max='4/1/2022') => {
       return new Promise((res, rej) => {
         searchClient.json(
           {
             q: `${TICKERS[ticker]} site:substack.com`,
             ...query_params2,
+            "tbs":`cdr:1,cd_min:${cd_min},cd_max:${cd_max}`
           },
           (data, error) => {
             if (error) {

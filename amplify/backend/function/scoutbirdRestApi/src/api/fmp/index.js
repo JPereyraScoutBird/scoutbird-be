@@ -68,6 +68,14 @@ module.exports = async () => {
       console.log(data)
       return data
     },
+    companyOutlook: async (ticker) => {
+      const {
+        status, data
+      } = await axios.get(`${baseUrl}/company-outlook?symbol=${ticker}&apikey=${apiKey}`);
+      console.log(status)
+      console.log(data)
+      return data
+    },
     stockNews: async (ticker) => {
       const {
         status, data

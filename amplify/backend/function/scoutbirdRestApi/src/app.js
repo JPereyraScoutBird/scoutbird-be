@@ -386,7 +386,7 @@ const getSumValuesFromDate = (output, key, value, format='YYYYMM') => {
   return sum
 }
 
-app.get("/company-outlook/:ticker", async function (req, res) {
+app.get("/companyoutlook/:ticker", async function (req, res) {
   try {
       const ticker = req?.params?.ticker;
       const fmpClient = await fmp();
